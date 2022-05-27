@@ -25,12 +25,12 @@
       <div class="containter game col-3">
         <div class="text-center col-12 mx-auto">
           <div class="player-info">
-            <div class="profile-border">
+            <!-- <div class="profile-border">
               <img
                 class="profile-pic mb-4"
                 src="https://www.kindpng.com/picc/m/111-1117549_epic-face-pixel-art-hd-png-download.png"
               />
-            </div>
+            </div> -->
             <h3 class="name">{{name}}</h3>
             <div class="row mb-5">
               <h4 class="col-6 col-sm-12 col-md-12 col-lg-6 race">
@@ -42,37 +42,49 @@
             </div>
             <div class="mb-5">
               <h4>Health Points:</h4>
-              <h4>100/100</h4>
+              <h4>{% if gameover %} 0/100 {%else%} 100/100 {% endif %}</h4>
             </div>
-            <div class="row mb-5">
+            <!-- <div class="row mb-5">
               <h4 class="col-12 col-sm-12 col-md-12 col-lg-4 Strength">
-                Strength: {{strength}}
+                Str: {{strength}}
               </h4>
               <h4 class="-col-12 col-sm-12 col-md-12 col-lg-4 Intelligence">
-                Intelligence: {{intelligence}}
+                Int: {{intelligence}}
               </h4>
               <h4 class="col-12 col-sm-12 col-md-12 col-lg-4 Stamina">
-                Stamina: {{stamina}}
+                stam: {{stamina}}
               </h4>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="arrows">
           <div class="move col-12 col-sm-12 col-md-10 col-lg-12 mx-auto">
-
             <form action="/action" method="POST">
               <button
                 type="submit"
                 value="north"
                 class="fabutton"
-                {% if not north%}disabled{% endif %}
+                {%
+                if
+                not
+                north%}disabled{%
+                endif
+                %}
+                {% if gameover %}disabled{% endif %}
               >
                 <i
-                  {%if not north%}
+                {% if gameover %}class="fa-solid fa-arrow-up disabled"{% endif %}
+                  {%if
+                  not
+                  north%}
                   class="fa-solid fa-arrow-up disabled"
-                  {% else %}
+                  {%
+                  else
+                  %}
                   class="fa-solid fa-arrow-up"
-                  {% endif %}
+                  {%
+                  endif
+                  %}
                 ></i>
                 <input hidden type="text" name="north" value="north" />
               </button>
@@ -84,14 +96,25 @@
                   type="submit"
                   value="west"
                   class="fabutton"
-                  {%if not west %}disabled{% endif %}
+                  {%if
+                  not
+                  west
+                  %}disabled{%
+                  endif
+                  %}
                 >
                   <i
-                    {%if not west%}
+                    {%if
+                    not
+                    west%}
                     class="fa-solid fa-arrow-left disabled"
-                    {% else %}
+                    {%
+                    else
+                    %}
                     class="fa-solid fa-arrow-left"
-                    {% endif %}
+                    {%
+                    endif
+                    %}
                   ></i>
                   <input hidden type="text" name="west" value="west" />
                 </button>
@@ -102,19 +125,32 @@
                   type="submit"
                   value="east"
                   class="fabutton"
-                  {% if not east %}disabled{% endif %}
+                  {%
+                  if
+                  not
+                  east
+                  %}disabled{%
+                  endif
+                  %}
                 >
                   <i
-                    {% if not east %}
+                    {%
+                    if
+                    not
+                    east
+                    %}
                     class="fa-solid fa-arrow-right disabled"
-                    {% else %}
+                    {%
+                    else
+                    %}
                     class="fa-solid fa-arrow-right"
-                    {% endif %}
+                    {%
+                    endif
+                    %}
                   ></i>
                   <input hidden type="text" name="east" value="east" />
                 </button>
               </form>
-
             </div>
 
             <form action="/action" method="POST">
@@ -122,14 +158,27 @@
                 type="submit"
                 value="south"
                 class="fabutton"
-                {%if not south %}disabled{% endif %}
+                {%if
+                not
+                south
+                %}disabled{%
+                endif
+                %}
               >
                 <i
-                  {% if not south %}
+                  {%
+                  if
+                  not
+                  south
+                  %}
                   class="fa-solid fa-arrow-down disabled"
-                  {% else %}
+                  {%
+                  else
+                  %}
                   class="fa-solid fa-arrow-down"
-                  {% endif %}
+                  {%
+                  endif
+                  %}
                 ></i>
                 <input
                   hidden
@@ -140,13 +189,13 @@
                 />
               </button>
             </form>
-            
           </div>
         </div>
       </div>
       <main class="col-9">
         <div class="text-container">
-          <p>==========Turn {{turn}}==========</p>
+          {% if not gameover %}
+          <p>====================Turn {{turn}}====================</p>
           <p>{{lastAction}}</p>
           {% if monster %}
           <p>You see a big ol Monster standing in the kitchen!</p>
@@ -154,53 +203,62 @@
           <p>Current Room: {{currentRoom}}</p>
           <p>Inventory : {{inventory}}</p>
           <p>
-            Valid Movements: 
-            {% if north %}
+            Valid Movements: {% if north %}
             <span>North</span>
-            {% endif %} 
-            {% if east %}
+            {% endif %} {% if east %}
             <span>East</span>
-            {% endif %} 
-            {% if south%}
+            {% endif %} {% if south%}
             <span>South</span>
-            {% endif %} 
-            {% if west %}
+            {% endif %} {% if west %}
             <span>West</span>
             {% endif %}
           </p>
           <p>Available Items: {{items}}</p>
+          {% else %}
+          <h1>GAME OVER</h1>
+          <P>You attacked the monster without a sword and have been slain.</P>
+          <P>Click the reset button to play again!</P>
+          {% endif %}
         </div>
         <div class="row player-inventory">
           <form action="/action" method="POST" class="col-4 p-0">
-        <button class="attack col-12 btn btn-light">Attack
+            <button class="attack col-12 btn btn-light" {% if gameover %}} disabled {% endif %}} >
+              Attack
               <input
-                  hidden
-                  type="text"
-                  class="form-control"
-                  name="attack"
-                  value="attack"
-                /></button>
+                hidden
+                type="text"
+                class="form-control"
+                name="attack"
+                value="attack"
+              />
+            </button>
           </form>
           <form action="/action" method="POST" class="col-4 p-0">
-          <button class="attack col-12 btn btn-light" 
-          {% if not items %}disabled{% endif %}>Pick Up
+            <button
+              class="attack col-12 btn btn-light"
+              {% if not items%}disabled{% endif %}
+            >
+              Pick Up
               <input
-                  hidden
-                  type="text"
-                  class="form-control"
-                  name="getItem"
-                  value="getItem"
-                /></button>
+                hidden
+                type="text"
+                class="form-control"
+                name="getItem"
+                value="getItem"
+              />
+            </button>
           </form>
           <form action="/action" method="POST" class="col-4 p-0">
-              <button class="attack col-12 btn btn-light">reset
+            <button class="attack col-12 btn btn-light">
+              reset
               <input
-                  hidden
-                  type="text"
-                  class="form-control"
-                  name="reset"
-                  value="reset"
-                /></button>
+                hidden
+                type="text"
+                class="form-control"
+                name="reset"
+                value="reset"
+              />
+            </button>
           </form>
         </div>
       </main>
