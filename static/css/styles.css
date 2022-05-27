@@ -1,0 +1,78 @@
+body {
+  color: white;
+  background-color: black;
+  /* overflow: hidden; */
+}
+
+h1 {
+  text-align: center;
+}
+
+.vertical-center {
+  margin-top: 11%;
+}
+
+.move {
+  text-align: center;
+  /* margin-top: 20em; */
+  /* background-color: aqua;
+  border-radius: 100%; */
+  /* justify-self: end; */
+  max-width: 70%;
+}
+
+.fabutton {
+  background: none;
+  padding: 0px;
+  border: none;
+  color: white;
+}
+
+i {
+  font-size: 4em;
+}
+
+.game {
+  background-color: rgb(55, 56, 83);
+  height: 100vh;
+}
+
+.player-info {
+  padding-top: 1em;
+}
+
+.profile-pic {
+  width: 12em;
+  height: 12em;
+  border-radius: 50%;
+}
+
+.arrows {
+  position: relative;
+  bottom: -5%;
+  left: 0%;
+}
+
+.text-container {
+  height: 75%;
+  padding-left: 5px;
+}
+
+.player-inventory {
+  height: 25%;
+  padding: 0;
+  margin: 0;
+  background-color: rgb(2, 7, 39);
+}
+
+main {
+  padding: 0 !important;
+}
+
+.attack {
+  height: 85%;
+}
+
+.fa-solid.disabled {
+  color: gray;
+}

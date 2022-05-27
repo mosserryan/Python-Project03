@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DungeonBunkers</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link rel="stylesheet" href="/Python-Project03/static/css/styles.css" />
+    <script
+      src="https://kit.fontawesome.com/789fa0b966.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="row">
+      <div class="containter game col-3">
+        <div class="text-center col-12 mx-auto">
+          <div class="player-info">
+            <div class="profile-border">
+              <img
+                class="profile-pic mb-4"
+                src="https://www.kindpng.com/picc/m/111-1117549_epic-face-pixel-art-hd-png-download.png"
+              />
+            </div>
+            <h3 class="name">{{name}}</h3>
+            <div class="row mb-5">
+              <h4 class="col-6 col-sm-12 col-md-12 col-lg-6 race">
+                Race: {{race}}
+              </h4>
+              <h4 class="col-6 col-sm-12 col-md-12 col-lg-6 profession">
+                Class: {{profession}}
+              </h4>
+            </div>
+            <div class="mb-5">
+              <h4>Health Points:</h4>
+              <h4>100/100</h4>
+            </div>
+            <div class="row mb-5">
+              <h4 class="col-12 col-sm-12 col-md-12 col-lg-4 Strength">
+                Strength: {{strength}}
+              </h4>
+              <h4 class="-col-12 col-sm-12 col-md-12 col-lg-4 Intelligence">
+                Intelligence: {{intelligence}}
+              </h4>
+              <h4 class="col-12 col-sm-12 col-md-12 col-lg-4 Stamina">
+                Stamina: {{stamina}}
+              </h4>
+            </div>
+          </div>
+        </div>
+        <div class="arrows">
+          <div class="move col-12 col-sm-12 col-md-10 col-lg-12 mx-auto">
+
+            <form action="/action" method="POST">
+              <button
+                type="submit"
+                value="north"
+                class="fabutton"
+                {% if not north%}disabled{% endif %}
+              >
+                <i
+                  {%if not north%}
+                  class="fa-solid fa-arrow-up disabled"
+                  {% else %}
+                  class="fa-solid fa-arrow-up"
+                  {% endif %}
+                ></i>
+                <input hidden type="text" name="north" value="north" />
+              </button>
+            </form>
+
+            <div class="row arrow">
+              <form class="col-6" action="/action" method="POST">
+                <button
+                  type="submit"
+                  value="west"
+                  class="fabutton"
+                  {%if not west %}disabled{% endif %}
+                >
+                  <i
+                    {%if not west%}
+                    class="fa-solid fa-arrow-left disabled"
+                    {% else %}
+                    class="fa-solid fa-arrow-left"
+                    {% endif %}
+                  ></i>
+                  <input hidden type="text" name="west" value="west" />
+                </button>
+              </form>
+
+              <form class="col-6" action="/action" method="POST">
+                <button
+                  type="submit"
+                  value="east"
+                  class="fabutton"
+                  {% if not east %}disabled{% endif %}
+                >
+                  <i
+                    {% if not east %}
+                    class="fa-solid fa-arrow-right disabled"
+                    {% else %}
+                    class="fa-solid fa-arrow-right"
+                    {% endif %}
+                  ></i>
+                  <input hidden type="text" name="east" value="east" />
+                </button>
+              </form>
+
+            </div>
+
+            <form action="/action" method="POST">
+              <button
+                type="submit"
+                value="south"
+                class="fabutton"
+                {%if not south %}disabled{% endif %}
+              >
+                <i
+                  {% if not south %}
+                  class="fa-solid fa-arrow-down disabled"
+                  {% else %}
+                  class="fa-solid fa-arrow-down"
+                  {% endif %}
+                ></i>
+                <input
+                  hidden
+                  type="text"
+                  class="form-control"
+                  name="south"
+                  value="south"
+                />
+              </button>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+      <main class="col-9">
+        <div class="text-container">
+          <p>==========Turn {{turn}}==========</p>
+          <p>{{lastAction}}</p>
+          {% if monster %}
+          <p>You see a big ol Monster standing in the kitchen!</p>
+          {% endif %}
+          <p>Current Room: {{currentRoom}}</p>
+          <p>Inventory : {{inventory}}</p>
+          <p>
+            Valid Movements: 
+            {% if north %}
+            <span>North</span>
+            {% endif %} 
+            {% if east %}
+            <span>East</span>
+            {% endif %} 
+            {% if south%}
+            <span>South</span>
+            {% endif %} 
+            {% if west %}
+            <span>West</span>
+            {% endif %}
+          </p>
+          <p>Available Items: {{items}}</p>
+        </div>
+        <div class="row player-inventory">
+          <form action="/action" method="POST" class="col-4 p-0">
+        <button class="attack col-12 btn btn-light">Attack
+              <input
+                  hidden
+                  type="text"
+                  class="form-control"
+                  name="attack"
+                  value="attack"
+                /></button>
+          </form>
+          <form action="/action" method="POST" class="col-4 p-0">
+          <button class="attack col-12 btn btn-light" 
+          {% if not items %}disabled{% endif %}>Pick Up
+              <input
+                  hidden
+                  type="text"
+                  class="form-control"
+                  name="getItem"
+                  value="getItem"
+                /></button>
+          </form>
+          <form action="/action" method="POST" class="col-4 p-0">
+              <button class="attack col-12 btn btn-light">reset
+              <input
+                  hidden
+                  type="text"
+                  class="form-control"
+                  name="reset"
+                  value="reset"
+                /></button>
+          </form>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
